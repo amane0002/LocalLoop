@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flappy Burghy</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #4ec0ca, #ffffff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    h2 {
+      font-size: 2rem;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      margin-bottom: 20px;
+    }
+
+    canvas {
+      background: #b9eaff;
+      border: 4px solid #277a8c;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(39, 122, 140, 0.5);
+    }
+
+    #restart-btn {
+      display: none;
+      margin-top: 20px;
+      background: #277a8c;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #restart-btn:hover {
+      background: #1d5c6a;
+    }
+
+    /* Human verification overlay */
+    #human-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #human-overlay .card {
+      background: #fff;
+      padding: 24px 28px;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+      text-align: center;
+      max-width: 320px;
+    }
+
+    #continue-btn {
+      margin-top: 12px;
+      background: #277a8c;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>Are you a Bot?</h2>
+  <canvas id="gameCanvas" width="1000" height="600"></canvas>
+  <button id="restart-btn">Restart</button>
+
+  <div id="human-overlay">
+    <div class="card">
+      <h3>You're a human!</h3>
+      <p>Score reached 10. Click to continue.</p>
+      <button id="continue-btn">Continue</button>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const restartBtn = document.getElementById("restart-btn");
+    const humanOverlay = document.getElementById("human-overlay");
+    const continueBtn = document.getElementById("continue-btn");
+
+    const burghyImg = new Image();
+    const burghyImg2 = new Image();
+    burghyImg2.src = "{{ url_for('static', filename='images/burghy.webp') }}";
+    burghyImg.src = "{{ url_for('static', filename='images/burghy.png') }}"; // 🟢 Burghy mascot image
+
+    let frames = 0;
+    let pipes = [];
+    let gameOver = false;
+    let redirectScheduled = false;
+    let paused = false;
+    let humanVerified = false;
+    let score = 0;
+    // Disable old auto-redirect on game over
+    redirectScheduled = true;
+
+    const gravity = 0.25;
+    const jump = 4.6;
+    const pipeGap = 120;
+    const pipeWidth = 60;
+
+    const bird = {
+      x: 80,
+      y: 150,
+      w: 40,
+      h: 40,
+      speed: 0,
+      rotation: 0,
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.drawImage(burghyImg2, -this.w / 2, -this.h / 2, this.w, this.h);
+        ctx.restore();
+      },
+      flap() {
+        this.speed = -jump;
+      },
+      update() {
+        this.speed += gravity;
+        this.y += this.speed;
+        if (this.y + this.h / 2 >= canvas.height) gameOver = true;
+      },
+      reset() {
+        this.y = 150;
+        this.speed = 0;
+        pipes = [];
+        score = 0;
+        gameOver = false;
+        restartBtn.style.display = "none";
+      }
+    };
+
+    function drawPipes() {
+      ctx.fillStyle = "#277a8c";
+      pipes.forEach(pipe => {
+        ctx.fillRect(pipe.x, 0, pipeWidth, pipe.top);
+        ctx.fillRect(pipe.x, pipe.bottom, pipeWidth, canvas.height - pipe.bottom);
+      });
+    }
+
+    function updatePipes() {
+      if (frames % 100 === 0) {
+        const top = Math.random() * (canvas.height / 2);
+        const bottom = top + pipeGap;
+        pipes.push({ x: canvas.width, top, bottom });
+      }
+
+      pipes.forEach((pipe, i) => {
+        pipe.x -= 2;
+
+        if (
+          bird.x + bird.w / 2 > pipe.x &&
+          bird.x - bird.w / 2 < pipe.x + pipeWidth &&
+          (bird.y - bird.h / 2 < pipe.top || bird.y + bird.h / 2 > pipe.bottom)
+        ) {
+          gameOver = true;
+        }
+
+        if (pipe.x + pipeWidth < 0) {
+          pipes.splice(i, 1);
+          score++;
+        }
+      });
+
+      // Human verification gate: pause at score >= 10
+      if (!humanVerified && score >= 10) {
+        humanVerified = true;
+        paused = true;
+        humanOverlay.style.display = "flex";
+      }
+    }
+
+    function drawBackground() {
+      ctx.fillStyle = "#b9eaff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawScore() {
+      ctx.fillStyle = "#277a8c";
+      ctx.font = "bold 28px Arial";
+      ctx.fillText("Score: " + score, 20, 40);
+    }
+
+    function drawGameOver() {
+      ctx.fillStyle = "rgba(0,0,0,0.5)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "white";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = "bold 48px Arial";
+      ctx.fillText("Game Over!", canvas.width / 2, canvas.height / 2 - 10);
+      ctx.font = "20px Arial";
+      ctx.fillText("Click or press space to restart", canvas.width / 2, canvas.height / 2 + 30);
+      // reset for other text (like score)
+      ctx.textAlign = "left";
+      ctx.textBaseline = "alphabetic";
+    }
+
+    function loop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBackground();
+
+      if (!gameOver && !paused) {
+        bird.update();
+        updatePipes();
+      }
+
+      drawPipes();
+      bird.draw();
+      drawScore();
+
+      if (gameOver) {
+        drawGameOver();
+        restartBtn.style.display = "block";
+        if (!redirectScheduled) {
+          redirectScheduled = true;
+          setTimeout(() => {
+            window.location.href = "{{ url_for('home') }}";
+          }, 2000);
+        }
+      }
+
+      frames++;
+      requestAnimationFrame(loop);
+    }
+
+    canvas.addEventListener("click", () => {
+      if (!gameOver && !paused) {
+        bird.flap();
+      }
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.code === "Space") {
+        if (gameOver) bird.reset();
+        else if (!paused) bird.flap();
+      }
+    });
+
+    restartBtn.addEventListener("click", () => {
+      bird.reset();
+    });
+
+    continueBtn.addEventListener("click", () => {
+      window.location.href = "{{ url_for('home') }}";
+    });
+
+    burghyImg2.onload = () => {
+      loop();
+    };
+  </script>
+</body>
+</html>
