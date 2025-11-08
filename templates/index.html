@@ -31,11 +31,11 @@
         <h1 id="Logo">Local Loop</h1>
 
         <nav aria-label="Primary">
-          <form action="find.html">
+          <form action="{{ url_for('display_events') }}">
             <input class="button" type="submit" value="Find" aria-label="Find events"/>
           </form>
 
-          <form action="create.html">
+          <form action="{{ url_for('add_event') }}">
             <input class="button" type="submit" value="Create" aria-label="Create event"/>
           </form>
         </nav>
