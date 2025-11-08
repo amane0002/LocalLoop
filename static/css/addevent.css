@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+:root{
+    --brand: hsl(210,97%,59%);
+    --brand-600: hsl(210,91%,45%);
+    --text: #07203b;
+    --muted: #546e7a;
+    --max-width: 1200px;
+    --content-width: 800px;
+    --gap: 1.25rem;
+    --radius: 12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+    min-height:100vh;
+    font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
+    color:var(--text);
+    background: url("../images/Background_addevent.jpg") center center/cover no-repeat fixed, #fff;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: rgba(255,255,255,0.5); /* adjust opacity here */
+    pointer-events: none;
+}
+
+body > * {
+    position: relative;
+    z-index: 1;
+}
+header {
+    background: var(--brand);
+    padding: 0 0 24px 0;
+}
+.top-nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 32px;
+    padding: 24px 40px 0 40px;
+}
+.top-nav a {
+    color: #fff;
+    font-size: 1.2rem;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+}
+.top-nav a:hover {
+    color: #e0e7ef;
+}
+h1 {
+    color: #fff;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 64px;
+    text-align: center;
+    margin: 40px auto 0 auto;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.12);
+    letter-spacing: 1px;
+}
+.create-container {
+    max-width: var(--content-width);
+    width: 95%;
+    margin: 48px auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(7,22,40,0.10);
+    padding: 40px 32px 32px 32px;
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+}
+.form-section {
+    flex: 2;
+}
+.form-row {
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+}
+.form-row label {
+    font-weight: 600;
+    color: var(--brand-600);
+    margin-bottom: 7px;
+    font-size: 1.1rem;
+    letter-spacing: 0.2px;
+}
+.form-row input,
+.form-row textarea {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #cbd5e1;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #f8fafc;
+    color: var(--text);
+    transition: border 0.2s;
+}
+.form-row input:focus,
+.form-row textarea:focus {
+    border: 1.5px solid var(--brand);
+    outline: none;
+}
+button[type="submit"] {
+    display: block;
+    margin: 32px auto 0 auto;
+    background: var(--brand);
+    color: #fff;
+    font-size: 1.3rem;
+    font-family: 'Times New Roman', Times, serif;
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px 48px;
+    box-shadow: 0 8px 24px rgba(7,22,40,.08);
+    cursor: pointer;
+    transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+button[type="submit"]:hover {
+    background: var(--brand-600);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(7,22,40,.12);
+}
+.flyer-section {
+    flex: 1;
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 24px 18px;
+    box-shadow: 0 4px 16px rgba(7,22,40,0.06);
+    text-align: center;
+}
+.flyer-section h2 {
+    color: var(--brand-600);
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 2px dashed var(--brand-600);
+    border-radius: 10px;
+    padding: 24px 12px;
+    cursor: pointer;
+    transition: border 0.2s;
+}
+.upload-box:hover {
+    border-color: var(--brand);
+}
+.upload-box input[type="file"] {
+    display: none;
+}
+.upload-box img {
+    width: 48px;
+    height: 48px;
+    opacity: 0.7;
+}
+.upload-box span {
+    color: var(--muted);
+    font-size: 1rem;
+}
+@media (max-width: 900px) {
+    .create-container {
+        flex-direction: column;
+        width: 90%;
+        max-width: 600px;
+        gap: 32px;
+        padding: 32px 24px 24px 24px;
+    }
+    .form-section {
+        width: 100%;
+    }
+    .flyer-section {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.2rem;
+        margin-top: 24px;
+    }
+    .create-container {
+        width: 95%;
+        margin: 24px auto;
+        padding: 18px 16px 12px 16px;
+    }
+    .flyer-section {
+        padding: 16px 4px;
+    }
+    button[type="submit"] {
+        padding: 12px 18px;
+        font-size: 1.1rem;
+        width: 100%;
+    }
+}
+footer{
+  background:var(--brand);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 20px;
+  height: 90px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
