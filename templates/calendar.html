@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendar - LocalLoop</title>
+  <link rel="stylesheet" href="../static/css/find.css"/>
+  <style>
+    main { width: 92%; max-width: 1100px; margin: 24px auto 48px; }
+    h1 { text-align:center; color:#277a8c; margin: 16px 0 8px; }
+    .nav-row{ display:flex; justify-content:center; align-items:center; gap:12px; margin-bottom:16px; color:#0f172a; }
+    .nav-row a{ color:#fff; text-decoration:none; background:#277a8c; padding:8px 12px; border-radius:10px; font-weight:600; }
+    .grid{ display:grid; grid-template-columns: repeat(7, 1fr); gap:10px;}
+    .dow{ text-align:center; color: #0f172a; font-weight:700; }
+    .cell{ background:#fff; border-radius:12px; min-height:120px; padding:10px; box-shadow:0 4px 12px rgba(0,0,0,.12); display:flex; flex-direction:column; }
+    .cell .day{ font-weight:700; color:#0f172a; margin-bottom:6px; }
+    .cell .items{ display:flex; flex-direction:column; gap:6px; }
+    .pill{ display:inline-block; background:#277a8c; color:#fff; padding:6px 8px; border-radius:8px; font-size:.85rem; }
+    .muted{ color:#94a3b8; }
+    @media (max-width: 800px){ .cell{ min-height:90px; padding:8px; } .pill{ font-size:.8rem; } }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <a class="brand" href="{{ url_for('home') }}">
+        <img src="../static/images/favicon.jpg" alt="Local Loop logo" />
+        <span>Local Loop</span>
+      </a>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('add_event') }}">Create</a>
+      <a class="announce" href="{{ url_for('display_events') }}">Find</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>{{ month_name }} {{ year }}</h1>
+    <div class="nav-row">
+      <a href="{{ url_for('calendar', year=prev_year, month=prev_month) }}">Prev</a>
+      <a href="{{ url_for('calendar') }}">Current</a>
+      <a href="{{ url_for('calendar', year=next_year, month=next_month) }}">Next</a>
+    </div>
+    <div class="grid">
+      {% for name in ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] %}
+        <div class="dow">{{ name }}</div>
+      {% endfor %}
+      {% for week in weeks %}
+        {% for day in week %}
+          <div class="cell">
+            {% if day == 0 %}
+              <div class="day muted">&nbsp;</div>
+            {% else %}
+              <div class="day">{{ day }}</div>
+              <div class="items">
+                {% for e in events_by_day.get(day, []) %}
+                  <span class="pill" title="{{ e['Description'] }}">{{ e['EventName'] }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Local Loop. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+
