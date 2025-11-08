@@ -10,6 +10,10 @@
   <header>
     <nav class="top-nav">
       <link rel="stylesheet" href="../static/css/addevent.css"/>
+      <a class="brand" href="{{ url_for('home') }}">
+        <img src="../static/images/favicon.jpg" alt="Local Loop logo" />
+        <span>Local Loop</span>
+      </a>
       <a href="{{ url_for('home') }}">Home</a>
       <a href="{{ url_for('display_events') }}">Find</a>
     </nav>
@@ -84,15 +88,7 @@
   <button type="submit">Create Event</button>
   </form>
 
-  <footer>
-    <p>&copy; 2025 Local Loop. All rights reserved.</p>
-  </footer>
+  
 
 </body>
 </html>
-
-
-
-
-
-
