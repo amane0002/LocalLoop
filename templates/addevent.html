@@ -28,17 +28,38 @@
 
     <div class="form-row">
       <label><i class="fa fa-map-marker"></i> Location</label>
-      <input type="text" name="Location" placeholder="Enter location..." required>
+      <select name="Location" required>
+        <option value="" disabled selected>Select a location...</option>
+        <option value="downtown">Downtown</option>
+        <option value="campus">Campus</option>
+        <option value="park">City Park</option>
+        <option value="community">Community</option>
+        <option value="all">All Locations</option>
+      </select>
     </div>
 
     <div class="form-row">
       <label><i class="fa fa-clock-o"></i> Time</label>
-      <input type="text" name="Date" placeholder="Enter date & time..." required>
+      <select name="Time" required>
+        <option value="" disabled selected>Select a time...</option>
+        <option value="morning">Morning</option>
+        <option value="afternoon">Afternoon</option>
+        <option value="evening">Evening</option>
+        <option value="all">All Times</option>
+      </select>
     </div>
 
     <div class="form-row">
       <label><i class="fa fa-users"></i> Category</label>
-      <input type="text" name="Category" placeholder="Music, Food, Sports, etc..." required>
+      <select name="Category" required>
+        <option value="" disabled selected>Select a category...</option>
+        <option value="music">Music</option>
+        <option value="food">Food</option>
+        <option value="sports">Sports</option>
+        <option value="art">Art</option>
+        <option value="tech">Tech</option>
+        <option value="all">All Categories</option>
+      </select>
     </div>
 
     <div class="form-row">
@@ -69,6 +90,7 @@
 
 </body>
 </html>
+
 
 
 
