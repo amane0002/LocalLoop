@@ -56,14 +56,30 @@
            data-category="{{ event['Category']|lower }}"
            data-location="{{ event['Location']|lower }}"
            data-time="{{ event['Date']|lower }}">
-        <img alt="{{ event['EventName'] }}" src="{{ url_for('serve_flyer', filename=event['File']) }}">
-         <!--img src="/flyers/party.jpg"-->
-        
+        <img alt="{{ event['EventName'] }}" src="{{ url_for('serve_flyer', filename=event['File']) }}">        
         <div class="event-content">
           <h3>{{ event['EventName'] }}</h3>
           <p>{{ event['Location'] }} • {{ event['Date'] }}</p>
           <p><em>{{ event['Category'] }}</em></p>
           <p>{{ event['Description'] }}</p>
+
+        <iframe
+          width="100%"
+          height="250"
+          style="border-radius:10px; border:0; margin-top:10px;"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q={{ event['Location'] | urlencode }}&output=embed">
+        </iframe>
+
+        <a 
+          href="https://www.google.com/maps/dir/?api=1&destination={{ event['Location'] | urlencode }}" 
+          target="_blank"
+          style="display:inline-block; margin-top:10px; background:#277a8c; color:white; padding:10px 20px; border-radius:8px; text-decoration:none;">
+          Get Directions
+        </a>
+
         </div>
       </div>
     {% endfor %}
