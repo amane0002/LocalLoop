@@ -138,7 +138,7 @@ def submitEvent():
     event_data = {
         'EventName': request.form.get('EventName'),
         'Category': request.form.get('Category'),
-        'Date': request.form.get('Date'),
+        'Date': request.form.get('Time'),
         'Location': request.form.get('Location'),
         'Description': request.form.get('Description'),
         'ContactInfo': request.form.get('ContactInfo'),

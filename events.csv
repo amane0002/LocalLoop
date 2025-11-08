@@ -1,4 +1,7 @@
 EventName,Category,Date,Location,Description,ContactInfo,File
-Test,music,,downtown,Test,test,test_image.jpg
-Party,art,,downtown,A fun party,party,party.jpg
-Baseball,sports,,park,A baseball game,None,baseball.jpg
+
+Pickup Baseball Game,sports,morning,park,Bring your own equipment! All skill levels welcome,None,pickup baseball.jpg
+Little League Baseball Game,sports,evening,park,Ages 9-12,None,baseball.jpg
+Neon Party,music,evening,downtown,Light up the night!!!!,None,neonglowparty.jpg
+Bar Crawl,food,afternoon,downtown,21+,(123) 456-7890,party.jpg
+Apple Picking,food,morning,park,Grab as many as you can,(111) 111-1111,test_image.jpg
