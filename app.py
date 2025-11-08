@@ -65,3 +65,51 @@ def display_events(category_name='all'):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+## User Log in ## Hashed Password Version Yay ##
+CSV_FILE = 'users.csv'
+
+def add_user(username, password):
+    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+    
+    # Create CSV if it doesn't exist
+    if not os.path.isfile(CSV_FILE):
+        with open(CSV_FILE, 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(['username','password'])
+    
+    with open(CSV_FILE, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([username, hashed.decode()])
+
+def check_user(username, password):
+    if not os.path.isfile(CSV_FILE):
+        return False
+    with open(CSV_FILE, 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row['username'] == username and bcrypt.checkpw(password.encode(), row['password'].encode()):
+                return True
+    return False
+
+@app.route('/', methods=['GET', 'POST'])
+def login_page():
+    message = ""
+    if request.method == 'POST':
+        if request.form['action'] == 'login':
+            username = request.form['username']
+            password = request.form['password']
+            if check_user(username, password):
+                message = "Login successful!"
+            else:
+                message = "Invalid username or password."
+        elif request.form['action'] == 'signup':
+            username = request.form['username']
+            password = request.form['password']
+            add_user(username, password)
+            message = "User registered! You can now log in."
+    return render_template('login.html', message=message)
+
+if __name__ == "__main__":
+    app.run(debug=True)
