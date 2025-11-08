@@ -137,9 +137,76 @@ def serve_flyer(filename):
     Serves the event flyer image files securely from the 'flyers' directory.
     This route is called from the <img> tag in find.html.
     """
-    # This securely serves the file from the UPLOAD_FOLDER (which is 'flyers')
     return send_from_directory('flyers', filename)
 
+def read_all_events():
+    events = []
+    try:
+        with open(EVENTS_CSV, 'r', newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                # Normalize some fields just in case
+                row['Category'] = (row.get('Category') or '').strip()
+                row['Date'] = (row.get('Date') or '').strip()
+                row['EventDate'] = (row.get('EventDate') or '').strip()
+                row['Location'] = (row.get('Location') or '').strip()
+                row['EventName'] = (row.get('EventName') or '').strip()
+                events.append(row)
+    except Exception as e:
+        print(f"Error reading CSV file: {e}")
+    return events
+
+
+@app.route('/calendar')
+def calendar():
+    """
+    Monthly calendar view using 'EventDate' (YYYY-MM-DD).
+    Falls back gracefully if some rows lack EventDate.
+    Accepts optional query params: ?year=YYYY&month=M
+    """
+    events = read_all_events()
+
+    today = datetime.date.today()
+    try:
+        year = int(request.args.get('year', today.year))
+        month = int(request.args.get('month', today.month))
+        if month < 1 or month > 12:
+            raise ValueError
+    except Exception:
+        year, month = today.year, today.month
+
+    events_by_day = {}
+    for e in events:
+        d = (e.get('EventDate') or '').strip()
+        try:
+            if d:
+                dt = datetime.datetime.strptime(d, '%Y-%m-%d').date()
+                if dt.year == year and dt.month == month:
+                    key = dt.day
+                    events_by_day.setdefault(key, []).append(e)
+        except Exception:
+            continue
+
+    cal = pycalendar.Calendar(firstweekday=6) 
+    weeks = cal.monthdayscalendar(year, month)
+
+    month_name = pycalendar.month_name[month]
+    prev_month = 12 if month == 1 else month - 1
+    prev_year = year - 1 if month == 1 else year
+    next_month = 1 if month == 12 else month + 1
+    next_year = year + 1 if month == 12 else year
+    return render_template(
+        'calendar.html',
+        year=year,
+        month=month,
+        month_name=month_name,
+        weeks=weeks,
+        events_by_day=events_by_day,
+        prev_year=prev_year,
+        prev_month=prev_month,
+        next_year=next_year,
+        next_month=next_month,
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
