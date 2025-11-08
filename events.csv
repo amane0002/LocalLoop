@@ -1,3 +1,4 @@
 EventName,Category,Date,Location,Description,ContactInfo,File
 Test,music,,downtown,Test,test,test_image.jpg
 Party,art,,downtown,A fun party,party,party.jpg
+Baseball,sports,,park,A baseball game,None,baseball.jpg
