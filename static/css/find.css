@@ -13,13 +13,28 @@
       flex-direction: column;
     }
 
+    header {
+      background: #277a8c;
+      padding: 0 0 24px 0;
+    }
+
     .top-nav {
-      background: #1e293b;
+      background: #0f3842;
       display: flex;
       justify-content: center;
-      gap: 100px;
-      padding: 15px 0;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      gap: 32px;
+      padding: 28px 40px;
+      min-height: 72px;
+      /* Glassy + shadow */
+      background: rgba(15,56,66,.85);
+      backdrop-filter: saturate(160%) blur(8px);
+      -webkit-backdrop-filter: saturate(160%) blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 10px 24px rgba(7,22,40,.15);
     }
 
     .top-nav a {
@@ -27,11 +42,44 @@
       text-decoration: none;
       font-weight: 600;
       font-size: 1.1rem;
-      transition: 0.3s;
+      padding: 10px 16px;
+      border-radius: 999px;
+      transition: color .2s, background .2s, transform .15s;
+    }
+
+    /* Brand (logo + name) pinned left */
+    .top-nav .brand{
+      position: absolute;
+      left: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .top-nav .brand img{
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    .top-nav .brand span{
+      font-family: "Merriweather", serif;
+      font-size: 1.8rem;
+      line-height: 1.3;
+    }
+
+    @media (max-width: 600px){
+      .top-nav{ gap: 20px; padding: 16px; }
+      .top-nav a{ padding: 8px 12px; font-size: .95rem; }
+      .top-nav .brand span{ font-size: 1.2rem; }
     }
 
     .top-nav a:hover {
-      color: #277a8c;
+      color: #e8f4f7;
     }
 
     h1 {
@@ -50,7 +98,7 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 15px;
-      background: 277a8c(30, 41, 59, 0.9);
+      background: #277a8c(30, 41, 59, 0.9);
       border-radius: 40px;
       padding: 18px 25px;
       margin: 0 auto 50px;
@@ -148,4 +196,19 @@
       text-align: center;
       padding: 15px 0;
       font-size: 0.9rem;
+    }
+    .top-nav a:not(.brand):hover {
+      color: #e8f4f7;
+      background: rgba(255,255,255,.12);
+      transform: translateY(-1px);
+    }
+
+    .top-nav a:not(.brand):focus-visible{
+      outline: 2px solid #6ec8dc;
+      outline-offset: 2px;
+    }
+    .top-nav a.active,
+    .top-nav a[aria-current="page"]{
+      background: #277a8c;
+      box-shadow: 0 6px 16px rgba(39,122,140,.25);
     }
