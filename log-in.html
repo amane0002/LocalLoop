@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Signup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #0d47a1; /* dark blue */
+      padding: 30px 40px;
+      border-radius: 10px;
+      width: 350px;
+      color: white;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #1565c0;
+    }
+
+    .signup-form {
+      margin-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      padding-top: 20px;
+    }
+
+    .message {
+      text-align: center;
+      background-color: #0d47a1; /* dark blue */
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    ::placeholder {
+      color: rgba(255,255,255,0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+
+    <!-- Login Form -->
+    <form action="/" method="POST">
+      <input type="hidden" name="action" value="login">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Log In</button>
+    </form>
+
+    <!-- Signup Form -->
+    <div class="signup-form">
+      <h2>Sign Up</h2>
+      <form action="/" method="POST">
+        <input type="hidden" name="action" value="signup">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
