@@ -40,7 +40,7 @@ header {
 }
 .top-nav {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 32px;
     padding: 24px 40px 0 40px;
 }
