@@ -1,6 +1,6 @@
 :root{
-    --brand: #277a8c(210,97%,59%);
-    --brand-600: #277a8c(210,91%,45%);
+    --brand: hsl(210,97%,59%);
+    --brand-600: hsl(210,91%,45%);
     --text: #07203b;
     --muted: #546e7a;
     --max-width: 1200px;
@@ -109,7 +109,7 @@ nav form {
 }
 
 footer {
-    background-color: #277a8c(210, 97%, 59%);
+    background-color: hsl(210, 97%, 59%);
     color: white;
     text-align: center;
     padding: 15px 0;
