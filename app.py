@@ -14,7 +14,11 @@ if not os.path.exists(CSV_FILE):
 
 
 @app.route('/')
-def index():
+def login():
+    return render_template('log-in.html')
+
+@app.route('/home', methods=['POST'])
+def home():
     return render_template('index.html')
 
 
