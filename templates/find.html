@@ -61,11 +61,11 @@
       <div class="event-card"
            data-category="{{ event['Category']|lower }}"
            data-location="{{ event['Location']|lower }}"
-           data-time="{{ event['Date']|lower }}">
+           data-time="{{ event['Time']|lower }}">
         <img alt="{{ event['EventName'] }}" src="{{ url_for('serve_flyer', filename=event['File']) }}">        
         <div class="event-content">
           <h3>{{ event['EventName'] }}</h3>
-          <p>{{ event['Location'] }} • {{ event['Date'] }}</p>
+          <p>{{ event['Location'] }} • {{ event['Time'] }} • {{ event['Date'] }}</p>
           <p><em>{{ event['Category'] }}</em></p>
           <p>{{ event['Description'] }}</p>
 
