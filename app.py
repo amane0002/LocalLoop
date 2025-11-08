@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for,send_from_directory
 import csv
 import os
 import bcrypt
@@ -128,6 +128,16 @@ def display_events(category_name='all'):
 def flappy():
     """Flappy Burghy Game Page"""
     return render_template('flappy.html')
+
+
+@app.route('/flyers/<filename>')
+def serve_flyer(filename):
+    """
+    Serves the event flyer image files securely from the 'flyers' directory.
+    This route is called from the <img> tag in find.html.
+    """
+    # This securely serves the file from the UPLOAD_FOLDER (which is 'flyers')
+    return send_from_directory(app.config['flyers'], filename)
 
 
 if __name__ == "__main__":

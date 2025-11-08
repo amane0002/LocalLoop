@@ -52,7 +52,7 @@
            data-category="{{ event['Category']|lower }}"
            data-location="{{ event['Location']|lower }}"
            data-time="{{ event['Date']|lower }}">
-        <img src="{{ url_for('static', filename='images/' + event['EventName']|lower|replace(' ', '') + '.png') }}"
+        <img src="{{ url_for('serve_flyer', filename=event['ImageFilename']) }}"
              alt="{{ event['EventName'] }}">
         <div class="event-content">
           <h3>{{ event['EventName'] }}</h3>
