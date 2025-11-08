@@ -92,7 +92,8 @@ h1 {
     letter-spacing: 0.2px;
 }
 .form-row input,
-.form-row textarea {
+.form-row textarea,
+.form-row select {
     padding: 12px 14px;
     border-radius: 8px;
     border: 1.5px solid #cbd5e1;
@@ -102,8 +103,17 @@ h1 {
     color: var(--text);
     transition: border 0.2s;
 }
+
+.form-row select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
 .form-row input:focus,
-.form-row textarea:focus {
+.form-row textarea:focus,
+.form-row select:focus {
     border: 1.5px solid var(--brand);
     outline: none;
 }
