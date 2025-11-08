@@ -177,7 +177,7 @@
     <section class="create-container">
       <div class="form-section">
 
-  <form action="/submitEvent" method="POST">
+  <form action="{{ url_for('submitEvent') }}" method="POST" enctype="multipart/form-data">
     <div class="form-row">
       <label><i class="fa fa-search"></i> Event</label>
       <input type="text" name="EventName" placeholder="Enter event name..." required>
@@ -207,16 +207,20 @@
       <label><i class="fa fa-phone"></i> Contact Info</label>
       <input type="text" name="ContactInfo" placeholder="Email or phone number">
     </div>
+    <div class="flyer-section">
+      <h2>FLYER</h2>
+      <label for="file-upload" class="upload-box">
+         <!-- CRITICAL: name="file" is present -->
+          <input type="file" id="file-upload" name="file" accept="image/*">
+          <img src="https://img.icons8.com/ios-filled/50/000000/add-image.png" alt="upload icon">
+          <span>Click or drag to upload file</span>
+      </label>
+    </div>
 
     <button type="submit">Create Event</button>
   </form>
 
-    <div class="flyer-section">
-      <h2>FLYER</h2>
-      <label class="upload-box">
-        <input type="file" accept="image/*">
-        <img src="https://img.icons8.com/ios-filled/50/000000/add-image.png" alt="upload icon">
-        <span>Upload File</span>
+
       </label>
     </div>
   </section>

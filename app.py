@@ -5,7 +5,7 @@ import os
 app = Flask(__name__)
 
 CSV_FILE = 'events.csv'
-CSV_HEADER = ['EventName', 'Category', 'Date', 'Location', 'Description', 'ContactInfo']
+CSV_HEADER = ['EventName', 'Category', 'Date', 'Location', 'Description', 'ContactInfo','File']
 
 if not os.path.exists(CSV_FILE):
     with open(CSV_FILE, 'w', newline='', encoding='utf-8') as csvfile:
@@ -32,7 +32,11 @@ def submitEvent():
         'Location': request.form.get('Location'),
         'Description': request.form.get('Description'),
         'ContactInfo': request.form.get('ContactInfo'),
+        'File' : request.files.get('file'),   # 'file' is the name attribute of the <input>
     }
+    file = event_data['File'] 
+    file.save(os.path.join('flyers', file.filename))
+
 
     with open(CSV_FILE, 'a', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=CSV_HEADER)

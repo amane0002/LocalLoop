@@ -5,3 +5,4 @@ EventID,Category,Date,Price,EventName,Location,Description,ContactInfo
 
 a,a,a,a,a,a
 a,a,a,a,a,a
+t,T,T,T,T,T,<FileStorage: 'test_image.jpg' ('image/jpeg')>
