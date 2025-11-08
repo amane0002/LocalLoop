@@ -52,16 +52,16 @@ body {
   text-decoration: none;
   padding: 14px 36px;
   border-radius: 10px;
-  background: #4b66ea;
+  background: #277a8c;
   color: #fff;
   font-size: 1.2rem;
   font-weight: bold;
   transition: 0.3s;
-  border: 2px solid #4b66ea;
+  border: 2px solid #277a8c;
 }
 
 .main-btn:hover {
-  background: #3a52c9;
+  background: #277a8c;
   transform: scale(1.05);
 }
 
