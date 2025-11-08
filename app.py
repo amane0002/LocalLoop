@@ -25,13 +25,66 @@ def add_user(username, password):
     hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
     with open(USERS_CSV, 'a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
-        writer.writerow([username, hashed.decode()])
+        writer.writerow([username, hashed.decode('utf-8')])
 
 
+# The correct logic relies on comparing the hashes using bcrypt:
+USERS_CSV_HEADER = ['username', 'password']
+
+
+# --- Helper Function: Get ALL user data ---
+def get_all_users():
+    """Reads the USERS_CSV and returns a dictionary: {username: password_hash}"""
+    users = {}
+    if os.path.exists(USERS_CSV):
+        try:
+            with open(USERS_CSV, 'r', newline='', encoding='utf-8') as csvfile:
+                # Use fieldnames to ensure DictReader recognizes the lowercase headers
+                reader = csv.DictReader(csvfile, fieldnames=USERS_CSV_HEADER)
+                
+                # Skip the header row if it exists (DictReader reads the first line)
+                if os.stat(USERS_CSV).st_size > len(','.join(USERS_CSV_HEADER)):
+                    next(reader) 
+                    
+                for row in reader:
+                    # Access CSV data using lowercase keys 'username' and 'password'
+                    users[row['username']] = row['password']
+        except Exception as e:
+            print(f"Error reading users CSV file: {e}") 
+    return users
+
+# --- Helper Function: Get a SINGLE user's data ---
+def get_user_data(username):
+    """
+    Looks up a username and returns a dictionary of their credentials 
+    if found, or None otherwise.
+    """
+    users = get_all_users()
+    stored_hash_str = users.get(username)
+    if stored_hash_str:
+        # Returns dictionary using the lowercase 'password' key to match check_user logic
+        return {'username': username, 'password': stored_hash_str}
+    return None
+
+# --- Helper Function: Check Password ---
 def check_user(username, password):
-    # Authentication bypass: accept any credentials
-    return True
+    """Authenticates a user against the stored bcrypt hash."""
+    user_data = get_user_data(username)
+    
+    if not user_data:
+        return False # User not found
 
+    # Uses the key 'password' from the dictionary returned by get_user_data
+    stored_hash_str = user_data['password'] 
+    
+    # 1. Convert stored hash string back into a byte string
+    stored_hash_bytes = stored_hash_str.encode('utf-8')
+    
+    # 2. Encode the plain text password input into bytes
+    input_password_bytes = password.encode('utf-8')
+    
+    # 3. Compare the two byte strings using bcrypt.checkpw
+    return bcrypt.checkpw(input_password_bytes, stored_hash_bytes)
 
 def user_exists(username):
     username = (username or "").strip()
