@@ -111,7 +111,6 @@
     let paused = false;
     let humanVerified = false;
     let score = 0;
-    // Disable old auto-redirect on game over
     redirectScheduled = true;
 
     const gravity = 0.25;
@@ -183,8 +182,7 @@
         }
       });
 
-      // Human verification gate: pause at score >= 10
-      if (!humanVerified && score >= 10) {
+      if (!humanVerified && score >= 3) {
         humanVerified = true;
         paused = true;
         humanOverlay.style.display = "flex";
@@ -212,7 +210,6 @@
       ctx.fillText("Game Over!", canvas.width / 2, canvas.height / 2 - 10);
       ctx.font = "20px Arial";
       ctx.fillText("Click or press space to restart", canvas.width / 2, canvas.height / 2 + 30);
-      // reset for other text (like score)
       ctx.textAlign = "left";
       ctx.textBaseline = "alphabetic";
     }
