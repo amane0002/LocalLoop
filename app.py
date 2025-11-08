@@ -137,7 +137,7 @@ def serve_flyer(filename):
     This route is called from the <img> tag in find.html.
     """
     # This securely serves the file from the UPLOAD_FOLDER (which is 'flyers')
-    return send_from_directory(app.config['flyers'], filename)
+    return send_from_directory('flyers',filename)
 
 
 if __name__ == "__main__":
