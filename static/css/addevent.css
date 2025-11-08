@@ -105,6 +105,29 @@ header {
     background: #277a8c;
     box-shadow: 0 6px 16px rgba(39,122,140,.25);
 }
+
+/* Right-pinned calendar button */
+.top-nav .announce{
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(135deg, #6ec8dc, #277a8c);
+    font-weight: 700;
+    letter-spacing: .2px;
+    transition: background .2s, box-shadow .2s;
+}
+.top-nav a.announce:hover{
+    transform: translateY(-50%);
+}
+
 h1 {
     color: #0f3842;
     font-family: "Merriweather", serif;
