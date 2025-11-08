@@ -1,7 +1,7 @@
 :root{
-    --brand: hsl(210,97%,59%);
-    --brand-600: hsl(210,91%,45%);
-    --text: #07203b;
+    --brand: #277a8c(210,97%,59%);
+    --brand-600: #277a8c(210,91%,45%);
+    --text: #277a8c;
     --muted: #546e7a;
     --max-width: 1200px;
     --content-width: 800px;
@@ -47,7 +47,7 @@ main {
 h1{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     color:#fff;
-    font-size: 180px;
+    font-size: 250px;
     line-height:1.1;
     margin: 0 auto;
     word-wrap: break-word;
@@ -109,7 +109,7 @@ nav form {
 }
 
 footer {
-    background-color: hsl(210, 97%, 59%);
+    background-color: #277a8c(210, 97%, 59%);
     color: white;
     text-align: center;
     padding: 15px 0;
@@ -124,7 +124,7 @@ footer {
     width: 300px;
     height: 65px;
     border-radius: var(--radius);
-    background: var(--brand);
+    background: #277a8c;
     color: #fff;
     border: 0;
     font-family: 'Times New Roman', Times, serif;
@@ -181,7 +181,7 @@ footer {
 .sponsors h2 {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 32px;
-  color: var(--brand-600);
+  color: #277a8c;
   margin-bottom: 16px;
 }
 
@@ -233,6 +233,7 @@ footer {
 footer{
   background:var(--brand);
   color:#fff;
+  background-color: #277a8c;
   display:flex;
   align-items:center;
   justify-content:center;
