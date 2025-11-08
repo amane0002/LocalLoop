@@ -170,6 +170,65 @@ footer {
   }
 }
 
+/* Sponsors Section */
+.sponsors {
+  max-width: var(--content-width);
+  margin: 48px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.sponsors h2 {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 32px;
+  color: var(--brand-600);
+  margin-bottom: 16px;
+}
+
+.sponsors p {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 24px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  font-style: italic;
+  text-align: center;
+}
+
+.sponsor-grid {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.sponsor-item {
+  width: 100%;
+}
+
+.sponsor-item img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(7,22,40,0.08);
+  transition: transform .18s ease;
+}
+
+.sponsor-item img:hover {
+  transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .sponsor-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sponsor-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
 /* Footer */
 footer{
   background:var(--brand);
