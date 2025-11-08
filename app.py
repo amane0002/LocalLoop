@@ -7,7 +7,7 @@ import bcrypt
 app = Flask(__name__)
 
 EVENTS_CSV = 'events.csv'
-EVENTS_HEADER = ['EventName', 'Category','Time', 'Date', 'Location', 'Description', 'ContactInfo', 'File']
+EVENTS_HEADER = ['EventName', 'Category', 'Time', 'Date', 'Location', 'Description', 'ContactInfo', 'File']
 
 if not os.path.exists(EVENTS_CSV):
     with open(EVENTS_CSV, 'w', newline='', encoding='utf-8') as csvfile:
@@ -107,7 +107,7 @@ def submitEvent():
         writer = csv.DictWriter(csvfile, fieldnames=EVENTS_HEADER)
         writer.writerow(event_data)
 
-    print(f"✅ Event added: {event_data['EventName']}")
+    print("Event added")
     return redirect(url_for('display_events'))
 
 
@@ -149,7 +149,9 @@ def read_all_events():
             for row in reader:
                 # Normalize some fields just in case
                 row['Category'] = (row.get('Category') or '').strip()
+                row['Time'] = (row.get('Time') or '').strip()
                 row['Date'] = (row.get('Date') or '').strip()
+                # Optional ISO date if present
                 row['EventDate'] = (row.get('EventDate') or '').strip()
                 row['Location'] = (row.get('Location') or '').strip()
                 row['EventName'] = (row.get('EventName') or '').strip()
@@ -179,15 +181,24 @@ def calendar():
 
     events_by_day = {}
     for e in events:
-        d = (e.get('EventDate') or '').strip()
-        try:
-            if d:
-                dt = datetime.datetime.strptime(d, '%Y-%m-%d').date()
-                if dt.year == year and dt.month == month:
-                    key = dt.day
-                    events_by_day.setdefault(key, []).append(e)
-        except Exception:
-            continue
+        dt = None
+        # Prefer ISO EventDate if present
+        d_iso = (e.get('EventDate') or '').strip()
+        if d_iso:
+            try:
+                dt = datetime.datetime.strptime(d_iso, '%Y-%m-%d').date()
+            except Exception:
+                dt = None
+        # Fallback: parse Date as mmddyyyy
+        if not dt:
+            d_txt = (e.get('Date') or '').strip()
+            if len(d_txt) == 8 and d_txt.isdigit():
+                try:
+                    dt = datetime.datetime.strptime(d_txt, '%m%d%Y').date()
+                except Exception:
+                    dt = None
+        if dt and dt.year == year and dt.month == month:
+            events_by_day.setdefault(dt.day, []).append(e)
 
     cal = pycalendar.Calendar(firstweekday=6) 
     weeks = cal.monthdayscalendar(year, month)
@@ -212,3 +223,4 @@ def calendar():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
