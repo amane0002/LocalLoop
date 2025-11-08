@@ -212,3 +212,23 @@
       background: #277a8c;
       box-shadow: 0 6px 16px rgba(39,122,140,.25);
     }
+
+    .event-card iframe {
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+
+    .event-card a {
+      display: inline-block;
+      margin-top: 10px;
+      background: #277a8c;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .event-card a:hover {
+      background: #1f6375;
+    }
